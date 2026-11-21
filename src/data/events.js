@@ -1,0 +1,27 @@
+export const categorias = ['Todos', 'Música', 'Arte', 'Teatro', 'Deportes', 'Cine'];
+
+export const eventos = [
+  { id: 'nocturna', nombre: 'Nocturna Sessions', categoria: 'Música', fecha: '2027-10-24T20:00:00', fechaTexto: '24 OCT · 8:00 PM', lugar: 'Museo de Arte', ciudad: 'San Salvador', precioDesde: 35, poster: 'nocturna', tituloPoster: 'NOCTURNA', detallePoster: 'SESSION 01', descripcion: 'Una noche de música en vivo, luces y sonidos en un espacio único de la ciudad.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 35, capacidad: 100 }, { id: 'preferencial', nombre: 'Preferencial', precio: 55, capacidad: 50 }, { id: 'vip', nombre: 'VIP', precio: 85, capacidad: 25 }] },
+  { id: 'jazz', nombre: 'Jazz After Hours', categoria: 'Música', fecha: '2027-10-31T19:30:00', fechaTexto: '31 OCT · 7:30 PM', lugar: 'Centro Cultural', ciudad: 'Santa Tecla', precioDesde: 28, poster: 'jazz', tituloPoster: 'JAZZ', detallePoster: 'LIVE MUSIC', descripcion: 'Un encuentro de jazz contemporáneo y clásicos en una sesión íntima.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 28, capacidad: 80 }, { id: 'preferencial', nombre: 'Preferencial', precio: 45, capacidad: 40 }, { id: 'vip', nombre: 'VIP', precio: 65, capacidad: 18 }] },
+  { id: 'arte', nombre: 'El arte de estar', categoria: 'Arte', fecha: '2027-11-08T18:00:00', fechaTexto: '08 NOV · 6:00 PM', lugar: 'Galería Centro', ciudad: 'San Salvador', precioDesde: 12, poster: 'arte', tituloPoster: 'EL ARTE\nDE ESTAR', detallePoster: 'EXHIBITION / 2027', descripcion: 'Exposición de artistas locales que explora la relación entre espacio y memoria.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 12, capacidad: 100 }, { id: 'preferencial', nombre: 'Preferencial', precio: 20, capacidad: 50 }, { id: 'vip', nombre: 'VIP', precio: 30, capacidad: 20 }] },
+  { id: 'final', nombre: 'Final 27', categoria: 'Deportes', fecha: '2027-11-14T18:00:00', fechaTexto: '14 NOV · 6:00 PM', lugar: 'Estadio Central', ciudad: 'San Salvador', precioDesde: 20, poster: 'final', tituloPoster: 'FINAL\n27', detallePoster: 'TEMPORADA FINAL', descripcion: 'Una experiencia deportiva llena de emoción y comunidad.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 20, capacidad: 500 }, { id: 'preferencial', nombre: 'Preferencial', precio: 38, capacidad: 180 }, { id: 'vip', nombre: 'VIP', precio: 70, capacidad: 50 }] },
+  { id: 'sombra', nombre: 'Sombra y luz', categoria: 'Arte', fecha: '2027-11-21T17:00:00', fechaTexto: '21 NOV · 5:00 PM', lugar: 'Museo Contemporáneo', ciudad: 'San Salvador', precioDesde: 15, poster: 'sombra', tituloPoster: 'SOMBRA\nY LUZ', detallePoster: 'EXPOSICIÓN', descripcion: 'Instalaciones visuales que juegan con contrastes y perspectivas.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 15, capacidad: 90 }, { id: 'preferencial', nombre: 'Preferencial', precio: 23, capacidad: 30 }, { id: 'vip', nombre: 'VIP', precio: 35, capacidad: 12 }] },
+  { id: 'escena', nombre: 'Escena contemporánea', categoria: 'Teatro', fecha: '2027-11-28T19:00:00', fechaTexto: '28 NOV · 7:00 PM', lugar: 'Teatro Nacional', ciudad: 'San Salvador', precioDesde: 25, poster: 'escena', tituloPoster: 'ESCENA', detallePoster: 'TEATRO', descripcion: 'Teatro contemporáneo con una propuesta escénica cercana al público.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 25, capacidad: 120 }, { id: 'preferencial', nombre: 'Preferencial', precio: 40, capacidad: 45 }, { id: 'vip', nombre: 'VIP', precio: 60, capacidad: 15 }] },
+  { id: 'cine', nombre: 'Cine al aire libre', categoria: 'Cine', fecha: '2027-12-05T19:00:00', fechaTexto: '05 DIC · 7:00 PM', lugar: 'Plaza Cultural', ciudad: 'San Salvador', precioDesde: 8, poster: 'cine', tituloPoster: 'CINE', detallePoster: 'AL AIRE LIBRE', descripcion: 'Una proyección especial bajo las estrellas para compartir con amigos.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 8, capacidad: 160 }, { id: 'preferencial', nombre: 'Preferencial', precio: 15, capacidad: 60 }, { id: 'vip', nombre: 'VIP', precio: 25, capacidad: 20 }] },
+  { id: 'ritmo', nombre: 'Ritmo Festival', categoria: 'Música', fecha: '2027-12-12T16:00:00', fechaTexto: '12 DIC · 4:00 PM', lugar: 'Parque Bicentenario', ciudad: 'San Salvador', precioDesde: 30, poster: 'ritmo', tituloPoster: 'RITMO', detallePoster: 'FESTIVAL / 27', descripcion: 'Una tarde de artistas, propuestas nuevas y ritmos para todos.', estado: 'Disponible', zonas: [{ id: 'general', nombre: 'General', precio: 30, capacidad: 300 }, { id: 'preferencial', nombre: 'Preferencial', precio: 50, capacidad: 120 }, { id: 'vip', nombre: 'VIP', precio: 90, capacidad: 40 }] }
+];
+
+export const usuariosDemo = [
+  { id: 1, nombre: 'Andrea López', correo: 'andrea@demo.com', rol: 'cliente', estado: 'Activo' },
+  { id: 2, nombre: 'Carlos Pérez', correo: 'carlos@demo.com', rol: 'cliente', estado: 'Activo' },
+  { id: 3, nombre: 'Equipo TicketExpress', correo: 'admin@demo.com', rol: 'administrador', estado: 'Activo' },
+  { id: 4, nombre: 'Organizador Demo', correo: 'organizador@demo.com', rol: 'organizador', estado: 'Activo' }
+];
+
+export const ventasDemo = [
+  { evento: 'Nocturna Sessions', monto: 2840, boletos: 76 },
+  { evento: 'Jazz After Hours', monto: 1920, boletos: 59 },
+  { evento: 'El arte de estar', monto: 920, boletos: 64 },
+  { evento: 'Final 27', monto: 3280, boletos: 112 },
+  { evento: 'Sombra y luz', monto: 780, boletos: 41 }
+];
