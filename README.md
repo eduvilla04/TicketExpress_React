@@ -1,56 +1,113 @@
 # TicketExpress
 
-TicketExpress es una página web para descubrir eventos y reservar entradas de forma sencilla. Permite explorar conciertos, exposiciones, teatro, deportes y cine en El Salvador.
+TicketExpress es una aplicación web para explorar eventos y comprar entradas de forma simulada. Permite consultar conciertos, exposiciones, obras de teatro, deportes y cine en El Salvador.
 
-El diseño utiliza colores neutros y una interfaz simple para encontrar eventos, revisar sus detalles y seguir el proceso de compra.
+La página tiene un diseño sencillo, con colores neutros, y permite recorrer el proceso de compra desde la selección de un evento hasta la confirmación de las entradas.
 
-## ¿Qué se puede hacer?
+## Funcionalidades
 
 - Explorar eventos por categoría, ciudad o nombre.
 - Consultar fechas, lugares, precios y zonas disponibles.
-- Agregar entradas al carrito y revisar el total.
-- Realizar una compra de prueba y consultar las entradas en **Mis entradas**.
-- Iniciar una sesión de demostración y acceder al panel de administración.
-- Consultar eventos, inventario, usuarios de ejemplo y reportes desde el panel.
+- Seleccionar entradas y agregarlas al carrito.
+- Revisar el total y completar una compra de prueba.
+- Consultar las entradas adquiridas en la sección Mis entradas.
+- Utilizar las opciones de registro, inicio de sesión y perfil de demostración.
+- Acceder al panel de administración para consultar eventos, inventario, usuarios y reportes.
 
-## Tecnologías
+## Tecnologías utilizadas
 
-React, JavaScript (JSX), Vite y CSS.
+- React 19
+- JavaScript y JSX
+- Vite 8
+- HTML5 y CSS3
+- Git y GitHub
 
-## Cómo ejecutar el proyecto
+## Instalación y ejecución
 
-Necesitás tener instalados Node.js y npm.
+Para ejecutar el proyecto es necesario tener instalados Node.js y npm.
 
-1. Descargá el repositorio y abrilo en VS Code.
-2. Abrí una terminal en la carpeta del proyecto.
-3. Ejecutá:
+Primero se descarga o clona el repositorio y se abre la carpeta en Visual Studio Code.
+
+Desde la terminal se ejecutan los siguientes comandos:
 
 ```bash
 npm install
 npm run dev
 ```
 
-4. Abrí la dirección que aparezca en la terminal, normalmente `http://localhost:5173/`.
+Después se abre en el navegador la dirección indicada por Vite, normalmente:
 
-En PowerShell también podés usar `npm.cmd install` y `npm.cmd run dev`.
+`http://localhost:5173/`
 
-## Cómo probar la página
+En PowerShell de Windows también se pueden utilizar los comandos `npm.cmd install` y `npm.cmd run dev`.
 
-Desde **Inicio** o **Explorar**, elegí un evento, seleccioná una zona y agregá entradas al carrito. Después seguí al pago para completar la compra de prueba.
+## Componentes principales
 
-Para entrar al panel administrativo, abrí **Iniciar sesión** y seleccioná **Entrar como administrador demo**.
+El proyecto está dividido en componentes reutilizables para evitar repetir código entre las diferentes pantallas.
 
-**Importante:** los eventos, usuarios y pagos son simulados. No usés datos bancarios reales. El QR de las entradas es ilustrativo y no sirve para ingresar a un evento.
+| Componente | Función |
+|---|---|
+| Header y Footer | Navegación y estructura general de la página. |
+| EventCard | Muestra la información resumida de cada evento. |
+| Poster | Presenta los afiches de los eventos. |
+| PageTitle | Muestra los títulos de las secciones. |
+| FilterTabs | Permite filtrar eventos por categoría. |
+| QtyStepper | Controla la cantidad de entradas. |
+| Summary | Muestra el resumen y total de la compra. |
+| Stepper | Indica el progreso del proceso de compra. |
+| FormField | Campos reutilizables para formularios. |
+| StateMessage | Muestra mensajes informativos y errores. |
+| Loading y EmptyState | Muestran estados de carga y resultados vacíos. |
+| TicketQR | Representación visual del código QR de una entrada. |
+| Panel, AdminNav y MetricCard | Organizan la información del administrador. |
+| BarChart | Muestra las estadísticas de ventas de demostración. |
 
-La información de prueba se guarda en `localStorage`, por lo que permanece en ese navegador hasta que se borren sus datos.
+Las pantallas se encuentran en `src/pages/`, mientras que los componentes compartidos están en `src/components/`.
 
-## Organización
+## Manejo de estado y persistencia
 
-- `src/components/`: componentes compartidos de la interfaz.
-- `src/pages/`: pantallas del sitio.
-- `src/context/`: estado del carrito, compras y sesión.
-- `src/data/`: catálogo y datos de ejemplo.
-- `src/styles/`: estilos y diseño responsive.
-- `docs/`: explicación técnica y guía de presentación.
+Se utiliza `useState` para controlar formularios, filtros y navegación. Para compartir información entre las distintas pantallas se utiliza `TicketContext`, junto con `useReducer`.
 
-El diseño original se puede consultar en [Figma](https://www.figma.com/design/ZISWfC6IuI9g4444QfLHuK).
+El estado principal contiene:
+
+| Estado | Información que maneja |
+|---|---|
+| `carrito` | Entradas, zonas, precios y cantidades seleccionadas. |
+| `ordenes` | Compras simuladas realizadas. |
+| `sesion` | Usuario y rol de demostración. |
+| `ciudad` | Ciudad seleccionada para explorar eventos. |
+| `eventosEstado` | Estados disponibles o pausados de los eventos. |
+| `inventarioAjustes` | Cambios de capacidad realizados desde administración. |
+
+Estos datos se guardan mediante `useEffect` en `localStorage`, utilizando la clave `ticketexpress_mvp_v1`. Esto permite conservar el carrito, las compras y los cambios de demostración al recargar la página.
+
+## Datos simulados
+
+La aplicación utiliza un catálogo de ocho eventos ficticios, cada uno con tres zonas de entradas, precios y capacidades diferentes.
+
+También se incluyen usuarios y registros de ventas de ejemplo para mostrar el funcionamiento del panel administrativo.
+
+Los pagos se procesan mediante una simulación que permite mostrar estados de carga, confirmación y error, sin realizar cobros reales.
+
+## Diseño y limitaciones
+
+El diseño está basado en el [prototipo de TicketExpress en Figma](https://www.figma.com/design/ZISWfC6IuI9g4444QfLHuK). Se eligió una apariencia minimalista con colores blanco, negro y gris.
+
+La interfaz utiliza CSS, Flexbox y Grid para adaptarse a dispositivos móviles, tablets y computadoras.
+
+Se utilizaron componentes reutilizables para mantener el código organizado y un contexto de React para compartir la información entre pantallas, sin necesidad de implementar un servidor.
+
+**Limitaciones actuales:**
+
+- No utiliza una base de datos ni un backend real.
+- El inicio de sesión y los usuarios son simulados.
+- No se procesan pagos reales.
+- Los códigos QR son ilustrativos y no funcionan como entradas válidas.
+- La información almacenada depende del navegador utilizado.
+
+## Documentación adicional
+
+En la carpeta `docs/` se incluyen:
+
+- `arquitectura.md`: organización de componentes y explicación del flujo de estado.
+- `guion-presentacion.md`: guía para demostrar las funcionalidades principales del proyecto.
