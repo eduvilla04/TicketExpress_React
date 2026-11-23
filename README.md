@@ -110,4 +110,3 @@ Se utilizaron componentes reutilizables para mantener el código organizado y un
 En la carpeta `docs/` se incluyen:
 
 - `arquitectura.md`: organización de componentes y explicación del flujo de estado.
-- `guion-presentacion.md`: guía para demostrar las funcionalidades principales del proyecto.
