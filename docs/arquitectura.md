@@ -1,62 +1,66 @@
-# Arquitectura de componentes y flujo de estado
+# Arquitectura de TicketExpress — tercera entrega
 
-## Vista general
-
-`main.jsx` crea la aplicación y la envuelve en `TicketProvider`. `App.jsx` decide qué pantalla mostrar mediante `ruta.pagina`. `Header` y `Footer` se mantienen visibles en todas las vistas. Las páginas consumen los datos del catálogo y el estado global.
+## Capas
 
 ```text
-TicketProvider (useReducer + useEffect)
-└── App (estado de navegación)
-    ├── Header / Footer
-    ├── Inicio / Explorar → EventCard → Poster
-    ├── Detalle → QtyStepper / Summary / Stepper
-    ├── Carrito → QtyStepper / Summary / Stepper
-    ├── Pago → FormField / StateMessage / Summary
-    ├── Confirmación / Entradas → TicketQR
-    ├── Autenticación / Perfil
-    └── Administración → Dashboard / Eventos / Inventario / Usuarios / Reportes
+main.jsx
+├── TicketProvider (Context + useReducer + localStorage)
+├── EventProvider (API falsa, errores, carga y refresco)
+└── RouterProvider (createBrowserRouter)
+    └── App (Header, Outlet, PwaStatus, Footer)
+        ├── Inicio / Explorar / Detalle
+        ├── Carrito / Checkout / Confirmación
+        ├── Guard autenticado → Boletos / Perfil
+        └── Guard por rol → Admin / Eventos / Inventario / Usuarios / Reportes
 ```
 
-## Estado global
+Las rutas se declaran en `src/router.jsx`; `src/routes/Guard.jsx` comprueba roles. `RouteView` conecta componentes con parámetros y navegación real. El listado y detalle usan loaders que aceptan `request.signal` y leen la API falsa.
 
-| Propiedad | Contenido | Dónde cambia |
-|---|---|---|
-| `carrito` | Eventos, zonas y cantidades | Detalle y Carrito |
-| `ordenes` | Compras de prueba completadas | Pago |
-| `sesion` | Usuario y rol ficticios | Login, Registro y Perfil |
-| `ciudad` | Ciudad seleccionada | Header |
-| `eventosEstado` | Evento disponible o pausado | Administración |
-| `inventarioAjustes` | Capacidades de las zonas | Administración |
+## API falsa
 
-Las acciones se procesan en el `reducer`. El `useEffect` del proveedor serializa el estado en `localStorage` cuando cambia. Los formularios usan `useState` y son controlados. La búsqueda simula carga con un temporizador limpiado por `useEffect`.
+`src/api/events.js` consulta `public/data/events.json` y combina los datos originales con un registro local de eventos creados, editados y eliminados. Las operaciones son asíncronas y validan datos. `src/api/users.js` lee usuarios ficticios y resuelve los roles; `src/api/orders.js` simula validaciones y confirma pagos de prueba. `src/api/base.js` maneja la lectura y las demoras con soporte para cancelación.
 
-## Flujo principal
+No existe ningún servidor de aplicación. GitHub Pages sirve los JSON estáticos y el navegador persiste las escrituras.
 
-```text
-Inicio / Explorar
-  → Detalle y selección
-  → Agregar al carrito
-  → Carrito y resumen
-  → Pago de prueba con validación
-  → Confirmación
-  → Mis entradas y QR ilustrativo
-```
+## Estado compartido
 
-Los pasos visuales del proceso de compra son: **Selección → Carrito → Pago → Confirmación**. La consulta del boleto aparece inmediatamente después del cuarto paso.
+| Propiedad del reducer | Uso | Persistencia |
+| --- | --- | --- |
+| `carrito` | Entradas, zona, precio y cantidad | `ticketexpress_mvp_v1` |
+| `ordenes` | Órdenes confirmadas | `ticketexpress_mvp_v1` |
+| `sesion` | Nombre, correo ficticio y rol | `ticketexpress_mvp_v1` |
+| `ciudad` | Preferencia de búsqueda | `ticketexpress_mvp_v1` |
 
-## Validaciones principales
+El estado del catálogo vive en `EventProvider` y se obtiene de la API. Las mutaciones se guardan en `ticketexpress_api_eventos_v3`. No se almacena ninguna información de tarjeta.
 
-- Cantidad de entradas disponible por zona.
-- Eventos en estado disponible.
-- Nombre y correo de prueba con formato válido.
-- Tarjeta ficticia de 16 dígitos, fecha `MM/AA` y código de 3 dígitos.
-- Bloqueo del botón mientras se simula el pago, para impedir envíos repetidos.
-- Rechazo intencional de tarjetas ficticias terminadas en `0000` para demostrar el estado de error y el reintento.
+## Flujo de compra
 
-## Diseño y accesibilidad
+1. Catálogo desde API → detalle de `/eventos/:id`.
+2. Zona y cantidad → reducer `AGREGAR_CARRITO`.
+3. Carrito → validación de disponibilidad → pago simulado.
+4. El API de pagos confirma o rechaza de forma ficticia; `COMPRAR` crea la orden.
+5. Confirmación → `/boletos` (requiere sesión) → QR escaneable por unidad.
 
-HTML semántico (`header`, `nav`, `main`, `section`, `article`, `aside`, `footer`), formularios con `label`, mensajes de estado accesibles, indicadores de pasos, botones con foco visible, controles utilizables por teclado y CSS propio con adaptaciones en `1080px`, `800px` y `480px`.
+Si compra un visitante, se crea automáticamente una sesión ficticia de cliente para permitirle ver los boletos. Las órdenes se guardan solo en ese navegador.
 
-## Limitaciones
+## Administración
 
-No se conecta a servicios externos, no registra pagos reales y la sesión no tiene seguridad de producción. El QR es ilustrativo y está identificado como tal.
+El panel admite eventos creados y modificados en tiempo de ejecución. El inventario y los precios se editan por zona. El dashboard y los reportes se calculan a partir de órdenes de ejemplo más compras nuevas; se pueden filtrar por periodo. `Guard` permite al organizador acceder a eventos e inventario, mientras los reportes y usuarios quedan disponibles solo al administrador.
+
+## QR
+
+`src/components/TicketQR.jsx` codifica `TE|<id_orden>|<id_evento>|<zona>|<número>` con corrección de errores M. Se genera una matriz QR por boleto, escaneable con lectores estándar. No existe un servidor que valide entradas para espectáculos reales.
+
+## PWA y despliegue
+
+`vite-plugin-pwa` genera el service worker. Workbox usa precache para app shell, **NetworkFirst** para JSON de la API y **CacheFirst** para imágenes. El fallback de navegación apunta a `index.html`. La configuración usa `VITE_BASE` y el router toma `import.meta.env.BASE_URL` como `basename`. GitHub Actions compila la rama `main` y publica `dist/`, que incluye `404.html` como copia de `index.html` y `.nojekyll`.
+
+La navegación profunda depende de GitHub Pages y su página 404 personalizada. Si no hay conexión, el navegador solo puede usar datos ya visitados y almacenados.
+
+## Limitaciones y seguridad
+
+La sesión y los permisos son simulados, no tienen protección real en un servidor. Las mutaciones, los correos, los pagos y los QR son solo para demostración. No se guardan contraseñas, números de tarjeta ni CVV. El proyecto conserva el diseño blanco/negro/gris y usa HTML semántico, etiquetas de formularios, avisos accesibles y estilos para 375, 768 y 1440 px.
+
+## Verificación local del QR
+
+`codigoBoleto` genera un texto diferente por entrada y `verificarBoleto` lo compara contra las órdenes locales. El panel `/admin/verificar` permite pegar el texto obtenido al escanear el QR. No se usa servidor ni firma criptográfica; la validación es una demostración.
