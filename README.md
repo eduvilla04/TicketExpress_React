@@ -1,112 +1,127 @@
 # TicketExpress
 
-TicketExpress es una aplicación web para explorar eventos y comprar entradas de forma simulada. Permite consultar conciertos, exposiciones, obras de teatro, deportes y cine en El Salvador.
+TicketExpress es una aplicación para explorar eventos en El Salvador y simular la compra de boletos. Incluye conciertos, arte, cine, teatro y deportes, con un diseño minimalista basado en nuestro [prototipo de Figma](https://www.figma.com/design/ZISWfC6IuI9g4444QfLHuK).
 
-La página tiene un diseño sencillo, con colores neutros, y permite recorrer el proceso de compra desde la selección de un evento hasta la confirmación de las entradas.
+Esta versión es una **PWA**: se puede instalar en el navegador y permite volver a consultar páginas y datos visitados cuando no hay conexión. Es una demostración académica; no realiza pagos, envíos de correo ni autenticaciones reales.
 
 ## Funcionalidades
 
-- Explorar eventos por categoría, ciudad o nombre.
-- Consultar fechas, lugares, precios y zonas disponibles.
-- Seleccionar entradas y agregarlas al carrito.
-- Revisar el total y completar una compra de prueba.
-- Consultar las entradas adquiridas en la sección Mis entradas.
-- Utilizar las opciones de registro, inicio de sesión y perfil de demostración.
-- Acceder al panel de administración para consultar eventos, inventario, usuarios y reportes.
+- Buscar y filtrar eventos por categoría o ciudad; ver fechas, lugares, zonas y precios.
+- Seleccionar entradas, usar el carrito y completar un pago simulado en cuatro pasos.
+- Consultar boletos con un **QR escaneable distinto por entrada** y verificarlos desde el panel.
+- Iniciar sesión de prueba con los roles de cliente, administrador y organizador.
+- Administrar eventos (crear, editar, publicar, pausar o eliminar), inventario y precios.
+- Consultar usuarios ficticios y reportes por evento y período, calculados desde órdenes de prueba.
+- Instalar la PWA, consultar datos almacenados sin conexión y recibir avisos de actualización.
 
-## Tecnologías utilizadas
+## Tecnologías
 
-- React 19
-- JavaScript y JSX
-- Vite 8
-- HTML5 y CSS3
-- Git y GitHub
+React 19, React Router 8 (modo datos), Vite 8, JavaScript/JSX, Context + `useReducer`, CSS, `vite-plugin-pwa`, Workbox y GitHub Actions.
 
-## Instalación y ejecución
+## Instalación
 
-Para ejecutar el proyecto es necesario tener instalados Node.js y npm.
-
-Primero se descarga o clona el repositorio y se abre la carpeta en Visual Studio Code.
-
-Desde la terminal se ejecutan los siguientes comandos:
+Se necesita Node.js **22.22 o superior** (recomendado Node.js 24), debido a los requisitos de React Router 8.
 
 ```bash
 npm install
 npm run dev
 ```
 
-Después se abre en el navegador la dirección indicada por Vite, normalmente:
+Abrí la URL que aparece en la consola, normalmente `http://localhost:5173/`.
 
-`http://localhost:5173/`
+En PowerShell de Windows podés usar `npm.cmd install` y `npm.cmd run dev` si se bloquean scripts `.ps1`.
 
-En PowerShell de Windows también se pueden utilizar los comandos `npm.cmd install` y `npm.cmd run dev`.
+Otros comandos:
 
-## Componentes principales
+```bash
+npm test
+npm run build
+npm run preview
+```
 
-El proyecto está dividido en componentes reutilizables para evitar repetir código entre las diferentes pantallas.
+Para comprobar la instalación y el modo offline usá **`npm run build` + `npm run preview`**. El service worker no se activa en el modo de desarrollo normal.
 
-| Componente | Función |
-|---|---|
-| Header y Footer | Navegación y estructura general de la página. |
-| EventCard | Muestra la información resumida de cada evento. |
-| Poster | Presenta los afiches de los eventos. |
-| PageTitle | Muestra los títulos de las secciones. |
-| FilterTabs | Permite filtrar eventos por categoría. |
-| QtyStepper | Controla la cantidad de entradas. |
-| Summary | Muestra el resumen y total de la compra. |
-| Stepper | Indica el progreso del proceso de compra. |
-| FormField | Campos reutilizables para formularios. |
-| StateMessage | Muestra mensajes informativos y errores. |
-| Loading y EmptyState | Muestran estados de carga y resultados vacíos. |
-| TicketQR | Representación visual del código QR de una entrada. |
-| Panel, AdminNav y MetricCard | Organizan la información del administrador. |
-| BarChart | Muestra las estadísticas de ventas de demostración. |
+## Cuentas de prueba
 
-Las pantallas se encuentran en `src/pages/`, mientras que los componentes compartidos están en `src/components/`.
+Las tres usan la contraseña ficticia **`Demo123!`**.
 
-## Manejo de estado y persistencia
+| Rol | Correo |
+| --- | --- |
+| Cliente | `cliente@ticketexpress.test` |
+| Administrador | `admin@ticketexpress.test` |
+| Organizador | `organizador@ticketexpress.test` |
 
-Se utiliza `useState` para controlar formularios, filtros y navegación. Para compartir información entre las distintas pantallas se utiliza `TicketContext`, junto con `useReducer`.
+También hay botones de acceso rápido en Iniciar sesión. El administrador puede acceder a todos los apartados; el organizador puede gestionar eventos e inventario, pero no reportes ni usuarios. El cliente puede consultar su perfil y sus boletos. El registro y la recuperación son simulados. No ingresés contraseñas o datos bancarios reales.
 
-El estado principal contiene:
+## Rutas
 
-| Estado | Información que maneja |
-|---|---|
-| `carrito` | Entradas, zonas, precios y cantidades seleccionadas. |
-| `ordenes` | Compras simuladas realizadas. |
-| `sesion` | Usuario y rol de demostración. |
-| `ciudad` | Ciudad seleccionada para explorar eventos. |
-| `eventosEstado` | Estados disponibles o pausados de los eventos. |
-| `inventarioAjustes` | Cambios de capacidad realizados desde administración. |
+| Ruta | Pantalla | Acceso |
+| --- | --- | --- |
+| `/` | Inicio | Público |
+| `/eventos` | Catálogo | Público |
+| `/eventos/:id` | Detalle | Público |
+| `/carrito` | Carrito | Público |
+| `/checkout` | Pago de prueba | Público |
+| `/confirmacion/:ordenId` | Confirmación | Público |
+| `/boletos`, `/perfil` | Entradas y perfil | Autenticado |
+| `/admin` | Dashboard | Administrador y organizador |
+| `/admin/eventos` | CRUD de eventos | Administrador y organizador |
+| `/admin/inventario` | Precios y capacidades | Administrador y organizador |
+| `/admin/usuarios`, `/admin/reportes` | Usuarios y reportes | Administrador |
+| `/admin/verificar` | Verificación local de boletos | Administrador y organizador |
+| `*` | Página 404 | Público |
 
-Estos datos se guardan mediante `useEffect` en `localStorage`, utilizando la clave `ticketexpress_mvp_v1`. Esto permite conservar el carrito, las compras y los cambios de demostración al recargar la página.
+La navegación usa `createBrowserRouter`, `RouterProvider` y `Outlet`. Las rutas privadas comprueban la sesión y el rol.
 
-## Datos simulados
+## Organización y estado
 
-La aplicación utiliza un catálogo de ocho eventos ficticios, cada uno con tres zonas de entradas, precios y capacidades diferentes.
+- `src/pages/`: inicio, catálogo, detalle, carrito, pago, boletos, cuenta y administración.
+- `src/components/`: elementos compartidos como `Header`, `EventCard`, `Poster`, `Stepper`, `Summary`, `FormField`, `TicketQR` y avisos PWA.
+- `src/routes/`, `src/router.jsx`: rutas, navegación y protección por roles.
+- `src/context/`: carrito, órdenes, sesión y preferencias con Context y `useReducer`.
+- `src/providers/EventProvider.jsx`: datos asíncronos del catálogo y operaciones administrativas.
+- `src/api/`: acceso a eventos, usuarios y pago simulado.
+- `public/data/`: JSON de eventos y usuarios ficticios.
+- `src/styles/`: estilos CSS y adaptación móvil (375 px), tablet (768 px) y escritorio (1440 px).
 
-También se incluyen usuarios y registros de ventas de ejemplo para mostrar el funcionamiento del panel administrativo.
+El carrito, las compras y la sesión se guardan en `localStorage` con la clave `ticketexpress_mvp_v1`. Los cambios de eventos se guardan por separado en `ticketexpress_api_eventos_v3`, y los estados de usuarios demo en `ticketexpress_api_usuarios_v3`. Los formularios usan `useState`.
 
-Los pagos se procesan mediante una simulación que permite mostrar estados de carga, confirmación y error, sin realizar cobros reales.
+## API falsa y datos
 
-## Diseño y limitaciones
+La **API falsa local** lee `public/data/events.json` y `public/data/users.json` mediante `fetch`, simula latencia y expone funciones de lectura y escritura. Crear, editar o eliminar eventos y actualizar precios o capacidades conserva las modificaciones en `localStorage` sin modificar los archivos JSON.
 
-El diseño está basado en el [prototipo de TicketExpress en Figma](https://www.figma.com/design/ZISWfC6IuI9g4444QfLHuK). Se eligió una apariencia minimalista con colores blanco, negro y gris.
+Hay ocho eventos iniciales, con tres zonas por evento, cuatro usuarios ficticios y cinco órdenes de ejemplo para los reportes. El catálogo muestra estados de carga, error y vacío y utiliza `AbortController` para cancelar solicitudes. Los reportes incorporan también las compras que hagás en el navegador.
 
-La interfaz utiliza CSS, Flexbox y Grid para adaptarse a dispositivos móviles, tablets y computadoras.
+Los pagos son ficticios. Si comprás sin iniciar sesión, se activa automáticamente la sesión de cliente de demostración para poder consultar los boletos. Para probarlos usá `4242 4242 4242 4242`, vencimiento `12/29` y CVV `123`; un número terminado en `0000` genera un rechazo de ejemplo. Ningún dato de tarjeta se guarda en las órdenes.
 
-Se utilizaron componentes reutilizables para mantener el código organizado y un contexto de React para compartir la información entre pantallas, sin necesidad de implementar un servidor.
+## PWA y caché
 
-**Limitaciones actuales:**
+La configuración está en `vite.config.js`:
 
-- No utiliza una base de datos ni un backend real.
-- El inicio de sesión y los usuarios son simulados.
-- No se procesan pagos reales.
-- Los códigos QR son ilustrativos y no funcionan como entradas válidas.
-- La información almacenada depende del navegador utilizado.
+- **Manifest:** nombre, colores, iconos de 192 y 512 px y una variante *maskable*.
+- **Precache:** app shell (HTML, JS, CSS, iconos y otros recursos compilados).
+- **NetworkFirst:** respuestas de la API local (`data/events.json` y `data/users.json`).
+- **CacheFirst:** imágenes, SVG e iconos.
+- **Navegación offline:** fallback a `index.html` para rutas SPA.
+- **Avisos:** pérdida de conexión, disponibilidad offline y nueva versión instalada.
 
-## Documentación adicional
+Después de cargar la página y visitar el catálogo una vez, probá el modo offline en DevTools → Network → Offline y recargá las pantallas visitadas. Para instalarla en Chrome o Edge usá el botón **Instalar app** cuando aparezca o la opción de instalación del navegador.
 
-En la carpeta `docs/` se incluyen:
+## Despliegue en GitHub Pages
 
-- `arquitectura.md`: organización de componentes y explicación del flujo de estado.
+El proyecto incluye `.github/workflows/deploy.yml`, `.nojekyll` y un script que genera `dist/404.html` para las rutas profundas.
+
+1. Subí los archivos fuente al repositorio `TicketExpress_React` (sin `node_modules` ni `dist`).
+2. En GitHub → **Settings → Pages**, seleccioná **GitHub Actions** como origen.
+3. En cada `push` a `main`, Actions ejecutará `npm ci`, compilará con `VITE_BASE=/TicketExpress_React/` y publicará `dist/`.
+4. Cuando termine el despliegue, verificá `https://eduvilla04.github.io/TicketExpress_React/`, recargá `/eventos/nocturna` y comprobá instalación y modo offline.
+
+La URL anterior es el **destino esperado**, no una confirmación de que ya esté publicada.
+
+## Limitaciones
+
+No se usa backend ni base de datos real. El acceso por roles, los correos, los pagos, las órdenes y el CRUD son simulados; los cambios del navegador no se comparten con otros usuarios. Los QR contienen identificadores legibles que se pueden contrastar con órdenes locales en `/admin/verificar`; no están firmados criptográficamente ni autorizan acceso a eventos reales. Las funciones offline requieren una primera visita y los recursos previamente almacenados.
+
+El código del QR incluye una versión adaptada de *QRCode for JavaScript* (Kazuhiko Arase) bajo licencia abierta; los avisos de licencia se conservan en `src/vendor/qr/`.
+
+Para conocer mejor las decisiones técnicas y comprobar cada funcionalidad, consultá `docs/arquitectura.md` y `docs/pruebas.md`.
