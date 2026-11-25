@@ -1,0 +1,46 @@
+.pwa-notices { position: sticky; top: 0; z-index: 35; }
+.pwa-notice { padding: 10px 6%; background: #292c2d; color: white; font-size: 13px; display: flex; gap: 12px; justify-content: center; align-items: center; flex-wrap: wrap; }
+.pwa-notice button { color: #fff; border: 1px solid #a9a9a9; background: transparent; border-radius: 5px; padding: 5px 12px; cursor: pointer; }
+.pill-install { background: #292c2d !important; color: #fff !important; }
+.demo-roles { display: flex; gap: 10px; flex-wrap: wrap; }
+.ticket-code { font-size: 11px; overflow-wrap: anywhere; color: #626669; margin-top: 12px; }
+.admin-main { min-width: 0; }
+.admin-editor { margin-bottom: 22px; }
+.admin-editor .panel-head { display: flex; align-items: center; justify-content: space-between; }
+.admin-form { display: grid; gap: 20px; }
+.admin-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 15px; }
+.admin-form label, .zone-edit-row label, .report-filter label { display: grid; gap: 7px; color: #333; font-size: 13px; font-weight: 600; }
+.admin-form input, .admin-form select, .admin-form textarea, .report-filter select { font: inherit; width: 100%; padding: 11px; border: 1px solid #d4d6d7; border-radius: 6px; background: #fff; color: #282a2b; }
+.admin-description { grid-column: 1/-1; }
+.zone-editor { display: grid; gap: 9px; }
+.zone-edit-row { display: grid; grid-template-columns: 1fr 1fr 1fr; align-items: center; gap: 12px; border: 1px solid #e4e5e5; padding: 10px; border-radius: 7px; }
+.zone-edit-row input { max-width: 100%; }
+.admin-actions,.table-actions { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.small-btn.danger { color: #a22b2b; border-color: #dba9a9; }
+.report-filter { display: flex; align-items: flex-end; justify-content: flex-end; margin-bottom: 18px; }
+.report-filter select { min-width: 210px; }
+.capacity-input { min-width: 88px; max-width: 105px; }
+.table-scroll { max-width: 100%; overflow-x: auto; }
+.table-scroll table { min-width: 580px; }
+.admin-nav { align-content: start; }
+.ticket-item .qr-wrap svg { width: 152px; max-width: 100%; aspect-ratio: 1; }
+.ticket-item .qr-wrap small { max-width: 155px; line-height: 1.4; display: block; }
+:focus-visible { outline: 3px solid #6e858d; outline-offset: 3px; }
+@media (max-width:800px) { .admin-form-grid { grid-template-columns: 1fr; } .admin-layout { min-width: 0; } .report-filter { justify-content: flex-start; } }
+@media (max-width:480px) {
+  .zone-edit-row { grid-template-columns: 1fr 1fr; }
+  .zone-edit-row strong { grid-column: 1/-1; }
+  .table-scroll table { min-width: 610px; }
+  .admin-actions .btn { width: 100%; }
+  .pwa-notice { justify-content: flex-start; }
+  .ticket-item { overflow-wrap: anywhere; }
+}
+
+.drop-menu a { display:block; text-decoration:none; color:#2a2c2d; background:none; text-align:left; padding:11px 13px; border-radius:6px; font-size:13px; }
+.drop-menu a:hover, .drop-menu a[aria-current="page"] { background:#f2f3f3; }
+.brand { text-decoration:none; cursor:pointer; }
+
+.verify-form { display: grid; gap: 10px; margin: 20px 0; }
+.verify-controls { display: flex; gap: 10px; flex-wrap: wrap; }
+.verify-controls input { flex: 1 1 230px; min-width: 0; border: 1px solid #c8cbce; border-radius: 7px; padding: 12px; font: inherit; }
+.verify-controls .btn { flex: 0 0 auto; }

@@ -1,10 +1,11 @@
-import { eventos } from '../data/events';
+import { useCatalogo } from '../providers/EventProvider';
 import { useTickets } from '../context/TicketContext';
 import { dinero, disponibilidad } from '../utils/helpers';
-import { EmptyState, PageTitle, QtyStepper, Stepper, Summary } from '../components/Common';
+import { EmptyState, PageTitle, QtyStepper, Stepper, Summary, Loading } from '../components/Common';
 
 export default function Carrito({ navegar }) {
   const { estado, dispatch } = useTickets();
+  const { eventos, cargando } = useCatalogo();
   const items = estado.carrito
     .map(item => ({ ...item, evento: eventos.find(e => e.id === item.eventoId) }))
     .filter(item => item.evento);
@@ -15,6 +16,7 @@ export default function Carrito({ navegar }) {
     valor: item.precio * item.cantidad
   }));
 
+  if (cargando) return <main className="container inner-page"><Loading texto="Cargando carrito..."/></main>;
   return (
     <main className="container inner-page">
       <PageTitle
@@ -29,8 +31,8 @@ export default function Carrito({ navegar }) {
           <section className="panel">
             <h2>Entradas seleccionadas</h2>
             {items.map(item => {
-              const zona = item.evento.zonas.find(z => z.id === item.zonaId);
-              const libres = disponibilidad(item.evento, zona, estado.ordenes, estado.inventarioAjustes);
+              const zona = item.evento.zonas.find(z => z.id === item.zonaId) || { nombre: 'Zona eliminada', capacidad: 0 };
+              const libres = disponibilidad(item.evento, zona, estado.ordenes);
               const limite = Math.max(1, Math.min(8, libres));
 
               return (
