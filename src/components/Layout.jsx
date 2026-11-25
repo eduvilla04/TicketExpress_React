@@ -1,5 +1,8 @@
 import { useState } from 'react';
 import { useTickets } from '../context/TicketContext';
+import { NavLink } from 'react-router';
+import InstallButton from './InstallButton';
+import { rutaDe } from '../routes/navegacion';
 
 export function Header({ pagina, navegar }) {
   const { estado, dispatch } = useTickets();
@@ -22,7 +25,7 @@ export function Header({ pagina, navegar }) {
     ['entradas', 'Mis entradas'],
     ['perfil', 'Mi perfil'],
     ['admin', 'Administración']
-  ];
+  ].filter(([vista]) => vista !== 'admin' || ['administrador', 'organizador'].includes(estado.sesion?.rol));
 
   function buscar(e) {
     e.preventDefault();
@@ -42,14 +45,14 @@ export function Header({ pagina, navegar }) {
           >
             ☰
           </button>
-          <button
-            type="button"
+          <NavLink
+            to="/"
             className="brand"
-            onClick={() => ir('inicio')}
+            onClick={() => { setMenuAbierto(false); setBusquedaAbierta(false); }}
             aria-label="TicketExpress, inicio"
           >
             ticket.
-          </button>
+          </NavLink>
         </div>
 
         <nav className="header-actions" aria-label="Navegación principal">
@@ -73,6 +76,7 @@ export function Header({ pagina, navegar }) {
           >
             ⌕
           </button>
+          <InstallButton/>
           <button className="pill pill-dark" type="button" onClick={() => ir('entradas')}>
             ▤ <span>Mis entradas</span>
           </button>
@@ -85,14 +89,14 @@ export function Header({ pagina, navegar }) {
       {menuAbierto && (
         <nav className="drop-menu" aria-label="Secciones del sitio">
           {enlaces.map(([vista, nombre]) => (
-            <button
-              type="button"
+            <NavLink
               key={vista}
-              onClick={() => ir(vista)}
-              aria-current={pagina === vista ? 'page' : undefined}
+              to={rutaDe(vista)}
+              onClick={() => { setMenuAbierto(false); setBusquedaAbierta(false); }}
+              aria-current={pagina === rutaDe(vista) ? 'page' : undefined}
             >
               {nombre}
-            </button>
+            </NavLink>
           ))}
         </nav>
       )}
