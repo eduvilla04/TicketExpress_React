@@ -1,0 +1,30 @@
+[
+  {
+    "id": 1,
+    "nombre": "Andrea López",
+    "correo": "andrea@demo.com",
+    "rol": "cliente",
+    "estado": "Activo"
+  },
+  {
+    "id": 2,
+    "nombre": "Carlos Pérez",
+    "correo": "carlos@demo.com",
+    "rol": "cliente",
+    "estado": "Activo"
+  },
+  {
+    "id": 3,
+    "nombre": "Equipo TicketExpress",
+    "correo": "admin@demo.com",
+    "rol": "administrador",
+    "estado": "Activo"
+  },
+  {
+    "id": 4,
+    "nombre": "Organizador Demo",
+    "correo": "organizador@demo.com",
+    "rol": "organizador",
+    "estado": "Activo"
+  }
+]
