@@ -49,8 +49,8 @@ export default function Pago({ navegar }) {
           <FormField id="correo-pago" label="Correo de prueba" name="correo" type="email" value={formulario.correo} onChange={actualizar} autoComplete="off" placeholder="demo@ejemplo.com" required/>
           <FormField id="tarjeta-pago" label="Tarjeta ficticia" name="tarjeta" inputMode="numeric" value={formulario.tarjeta} onChange={actualizar} autoComplete="off" placeholder="**** **** **** 0000" required/>
           <div className="two-fields">
-            <FormField id="vencimiento-pago" label="Vencimiento" name="vencimiento" value={formulario.vencimiento} onChange={actualizar} autoComplete="off" placeholder="12/29" required/>
-            <FormField id="cvv-pago" label="CVV de prueba" name="cvv" inputMode="numeric" value={formulario.cvv} onChange={actualizar} autoComplete="off" placeholder="123" required/>
+            <FormField id="vencimiento-pago" label="Vencimiento" name="vencimiento" value={formulario.vencimiento} onChange={actualizar} autoComplete="off" placeholder="00/00" required/>
+            <FormField id="cvv-pago" label="CVV de prueba" name="cvv" inputMode="numeric" value={formulario.cvv} onChange={actualizar} autoComplete="off" placeholder="000" required/>
           </div>
         </div>
         {error && <StateMessage tipo="error">{error}</StateMessage>}
