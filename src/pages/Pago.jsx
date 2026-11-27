@@ -45,8 +45,8 @@ export default function Pago({ navegar }) {
         <h2>Datos de demostración</h2>
         <StateMessage>Es una simulación. No ingresés tarjetas reales ni información personal.</StateMessage>
         <div className="form-grid">
-          <FormField id="nombre-pago" label="Nombre de prueba" name="nombre" value={formulario.nombre} onChange={actualizar} autoComplete="off" placeholder="Cliente de prueba" required/>
-          <FormField id="correo-pago" label="Correo de prueba" name="correo" type="email" value={formulario.correo} onChange={actualizar} autoComplete="off" placeholder="demo@ejemplo.com" required/>
+          <FormField id="nombre-pago" label="Nombre de prueba" name="nombre" value={formulario.nombre} onChange={actualizar} autoComplete="off" placeholder="Nombre de prueba" required/>
+          <FormField id="correo-pago" label="Correo de prueba" name="correo" type="email" value={formulario.correo} onChange={actualizar} autoComplete="off" placeholder="ejemplo@ejemplo.com" required/>
           <FormField id="tarjeta-pago" label="Tarjeta ficticia" name="tarjeta" inputMode="numeric" value={formulario.tarjeta} onChange={actualizar} autoComplete="off" placeholder="**** **** **** 0000" required/>
           <div className="two-fields">
             <FormField id="vencimiento-pago" label="Vencimiento" name="vencimiento" value={formulario.vencimiento} onChange={actualizar} autoComplete="off" placeholder="00/00" required/>
