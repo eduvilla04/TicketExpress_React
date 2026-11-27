@@ -47,7 +47,7 @@ export default function Pago({ navegar }) {
         <div className="form-grid">
           <FormField id="nombre-pago" label="Nombre de prueba" name="nombre" value={formulario.nombre} onChange={actualizar} autoComplete="off" placeholder="Nombre de prueba" required/>
           <FormField id="correo-pago" label="Correo de prueba" name="correo" type="email" value={formulario.correo} onChange={actualizar} autoComplete="off" placeholder="ejemplo@ejemplo.com" required/>
-          <FormField id="tarjeta-pago" label="Tarjeta ficticia" name="tarjeta" inputMode="numeric" value={formulario.tarjeta} onChange={actualizar} autoComplete="off" placeholder="**** **** **** 0000" required/>
+          <FormField id="tarjeta-pago" label="Tarjeta ficticia" name="tarjeta" inputMode="numeric" value={formulario.tarjeta} onChange={actualizar} autoComplete="off" placeholder="**** **** **** 1896" required/>
           <div className="two-fields">
             <FormField id="vencimiento-pago" label="Vencimiento" name="vencimiento" value={formulario.vencimiento} onChange={actualizar} autoComplete="off" placeholder="00/00" required/>
             <FormField id="cvv-pago" label="CVV de prueba" name="cvv" inputMode="numeric" value={formulario.cvv} onChange={actualizar} autoComplete="off" placeholder="000" required/>
@@ -55,7 +55,7 @@ export default function Pago({ navegar }) {
         </div>
         {error && <StateMessage tipo="error">{error}</StateMessage>}
         <button type="submit" className="btn btn-dark btn-full" disabled={procesando || cargando}>{procesando ? 'Procesando...' : `Confirmar compra · ${dinero(total)}`}</button>
-        <p className="microcopy">Ejemplo: 4242 4242 4242 4242, 12/29 y 123. Tarjetas que terminan en 0000 simulan un error.</p>
+        <p className="microcopy">Ejemplo: **** **** **** 1896, 00/00 y 000. Tarjetas que terminan en 0000 simulan un error.</p>
       </form>
       <div>
         <Summary titulo="Resumen de compra" lineas={items.map(item => ({ nombre: `${eventos.find(e => e.id === item.eventoId)?.nombre || 'Evento'} · ${item.cantidad}`, valor: item.precio * item.cantidad }))} total={total}/>
